@@ -16,10 +16,6 @@ SELECT first_name, last_name, hire_date
 FROM employees
 WHERE "1986-01-01" < hire_date AND hire_date < "1986-12-31";
 
-declare @start datetime, @end datetime
-select @start = '1986-01-01', @end = '1986-12-31'
-SELECT * FROM employees WHERE hire_date >= @start and hire_date < @end;
-
 --List the manager of each department with their dept number, dept name, employee number, last & first name
 SELECT dept_manager.dept_no, departments.dept_name, dept_manager.emp_no, employees.last_name, employees.first_name
 FROM employees
@@ -42,3 +38,28 @@ FROM employee_by_dept
 SELECT first_name, last_name, sex
 FROM employees
 WHERE first_name LIKE 'Hercules' AND last_name LIKE 'B%';
+
+--List employees in Sales department
+--Create View
+CREATE VIEW employees_in_sales2 AS
+SELECT dept_name 
+FROM departments
+WHERE dept_no IN
+(
+	SELECT dept_no
+	FROM dept_manager
+	WHERE emp_no IN
+	(
+		SELECT emp_no
+		FROM employees
+		WHERE emp_no IN
+		(
+			SELECT emp_no
+			FROM dept_employees
+			WHERE dept_no LIKE 'd007')
+)
+);
+
+--Query using view
+SELECT *
+FROM employees_in_sales2
