@@ -37,3 +37,8 @@ JOIN departments ON dept_manager.dept_no=departments.dept_no
 --Query View
 SELECT emp_no, last_name, first_name, dept_name
 FROM employee_by_dept
+
+--List employess with name Hercules and last name B
+SELECT first_name, last_name, sex
+FROM employees
+WHERE first_name LIKE 'Hercules' AND last_name LIKE 'B%';
