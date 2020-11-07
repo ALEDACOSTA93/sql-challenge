@@ -16,5 +16,8 @@ SELECT first_name, last_name, hire_date
 FROM employees
 WHERE hire_date = "1986";
 
---List the manager of each department
-
+--List the manager of each department with their dept number, dept name, employee number, last & first name
+SELECT dept_manager.dept_no, departments.dept_name, dept_manager.emp_no, employees.last_name, employees.first_name
+FROM employees
+JOIN dept_manager ON employees.emp_no=dept_manager.emp_no
+JOIN departments ON dept_manager.dept_no=departments.dept_no
