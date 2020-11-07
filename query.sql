@@ -41,25 +41,35 @@ WHERE first_name LIKE 'Hercules' AND last_name LIKE 'B%';
 
 --List employees in Sales department
 --Create View
-CREATE VIEW employees_in_sales2 AS
-SELECT dept_name 
+CREATE VIEW employees_in_sales5 AS
+SELECT employees.emp_no, employees.last_name, employees.first_name, departments.dept_name
 FROM departments
-WHERE dept_no IN
-(
-	SELECT dept_no
-	FROM dept_manager
-	WHERE emp_no IN
-	(
-		SELECT emp_no
-		FROM employees
-		WHERE emp_no IN
-		(
-			SELECT emp_no
-			FROM dept_employees
-			WHERE dept_no LIKE 'd007')
-)
-);
+JOIN dept_employees ON departments.dept_no=dept_employees.dept_no
+JOIN employees ON employees.emp_no=dept_employees.emp_no
 
 --Query using view
-SELECT *
-FROM employees_in_sales2
+SELECT emp_no, last_name, first_name, dept_name
+FROM employees_in_sales5
+WHERE dept_name = 'Sales'
+
+--List employees in Sales & Development departments
+--Create View
+CREATE VIEW employees_in_sales_and_dev2 AS
+SELECT employees.emp_no, employees.last_name, employees.first_name, departments.dept_name
+FROM departments
+JOIN dept_employees ON departments.dept_no=dept_employees.dept_no
+JOIN employees ON employees.emp_no=dept_employees.emp_no
+
+
+--Query using view
+SELECT emp_no, last_name, first_name, dept_name
+FROM employees_in_sales_and_dev2
+WHERE 
+	dept_name = 'Sales' 
+	OR dept_name = 'Development'
+	
+--List frequency count of employee last name in descending order
+SELECT last_name, COUNT(*)
+FROM employees
+GROUP BY last_name
+HAVING COUNT(*) > 1
