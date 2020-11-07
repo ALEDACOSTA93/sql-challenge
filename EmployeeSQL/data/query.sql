@@ -11,3 +11,10 @@ SELECT employees.emp_no, employees.last_name, employees.sex, employees.first_nam
 FROM employees
 JOIN salaries ON employees.emp_no=salaries.emp_no
 
+--List fist name, last name, and hire date for employees hired in 1986
+SELECT first_name, last_name, hire_date
+FROM employees
+WHERE hire_date = "1986";
+
+--List the manager of each department
+
